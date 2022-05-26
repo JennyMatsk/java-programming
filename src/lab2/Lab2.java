@@ -48,7 +48,7 @@ public class Lab2 {
     }
 
     // Получение количества столбцов с только положительными числами
-    public static int getHowManyPositiveColumns(boolean[] isColPositive) {
+    public static int getPositiveColumnsCount(boolean[] isColPositive) {
         int countOfPosColumns = 0;
 
         for (int i = 0; i < isColPositive.length; i++) {
@@ -62,7 +62,7 @@ public class Lab2 {
     // Создание нового массива на основе полученного на входе, но без столбцов с только положительными элементами
     public static int[][] deletePositiveColumns(int[][] array2D) {
         boolean[] isColPositive = findPositiveColumns(array2D);
-        int positiveColumnsCount = getHowManyPositiveColumns(isColPositive);
+        int positiveColumnsCount = getPositiveColumnsCount(isColPositive);
         int newWidth = array2D[0].length - positiveColumnsCount;
         int[][] array2DWithoutPosCol = new int[array2D.length][newWidth];
 
