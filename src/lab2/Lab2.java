@@ -11,7 +11,7 @@ public class Lab2 {
 
     // Получение произвольного числа в заданных границах (start, end)
     public static int getRandomNumberInRange(int start, int end) {
-        // Диапазон генеруемых случайных чисел
+        // Диапазон генерируемых случайных чисел
         int diff = end - start;
         Random random = new Random();
         int randomNum = random.nextInt(diff + 1);
