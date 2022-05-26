@@ -9,6 +9,7 @@ package lab3;
 // Используйте для хранения колоды и последовательностей карт только один массив из 36 элементов.
 public class Main {
     public static void main(String[] args) {
+        // Объявление и инициализация не перемешанной колоды
         Deck deck = new Deck();
 
         deck.printDeck();
@@ -19,6 +20,7 @@ public class Main {
         Player playerOne = new Player();
         Player playerTwo = new Player();
 
+        // Последовательная выдача карт игрокам
         for (int i = 1; i <= 36; i++) {
             if (i % 2 == 0) {
                 playerOne.addCard(deck.getCard());
