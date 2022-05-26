@@ -21,7 +21,7 @@ public class Player {
     }
 
     public void addCard(Card card) {
-        this.cards[cardsCount] = card;
+        cards[cardsCount] = card;
         cardsCount++;
     }
 }
