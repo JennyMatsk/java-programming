@@ -9,9 +9,27 @@ package lab3;
 // Используйте для хранения колоды и последовательностей карт только один массив из 36 элементов.
 public class Main {
     public static void main(String[] args) {
-        Card card = new Card(Suit.E_CLUBS, Value.ONE);
-        System.out.println(card.suit + " Before ");
-        card.suit = Suit.E_DIAMONDS;
-        System.out.println(card.suit + " After ");
+        Deck deck = new Deck();
+
+        deck.printDeck();
+        deck.mixDeck();
+        System.out.println();
+        deck.printDeck();
+
+        Player playerOne = new Player();
+        Player playerTwo = new Player();
+
+        for (int i = 1; i <= 36; i++) {
+            if (i % 2 == 0) {
+                playerOne.addCard(deck.getCard());
+            } else {
+                playerTwo.addCard(deck.getCard());
+            }
+        }
+
+        System.out.println("Player 1:");
+        playerOne.getCards();
+        System.out.println("Player 2:");
+        playerTwo.getCards();
     }
 }

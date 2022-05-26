@@ -1,8 +1,8 @@
 package lab3;
 
-enum Suit {E_SPADES, E_CLUBS, E_DIAMONDS, E_HEARTS}
+enum Suit {SPADES, CLUBS, DIAMONDS, HEARTS}
 
-enum Value {ONE}
+enum Value {SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE}
 
 public class Card {
     private Suit suit;
