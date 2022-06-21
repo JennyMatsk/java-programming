@@ -65,14 +65,16 @@ public class Lab2 {
         int positiveColumnsCount = getPositiveColumnsCount(isColPositive);
         int newWidth = array2D[0].length - positiveColumnsCount;
         int[][] array2DWithoutPosCol = new int[array2D.length][newWidth];
+        int skipColumns = 0;
 
-        for (int i = 0; i < array2D.length; i++) {
-            int skipColumns = 0;
-            for (int j = 0; j < array2D[i].length; j++) {
-                if (isColPositive[j]) {
-                    skipColumns++;
-                } else {
-                    array2DWithoutPosCol[i][j - skipColumns] = array2D[i][j];
+        for (int i = 0; i < array2D[0].length; i++) {
+            if (isColPositive[i]) {
+                skipColumns++;
+                continue;
+            }
+            else {
+            for (int j = 0; j < array2D.length; j++) {
+                    array2DWithoutPosCol[j][i - skipColumns] = array2D[j][i];
                 }
             }
         }
