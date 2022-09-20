@@ -1,92 +1,91 @@
 package lab4;
 
 public class Skin {
-    public static int size = 21;
-    private Cell[][] skin = new Cell[size][size];
+    public int size = 21;
+    private HealthyCell[][] skin = new HealthyCell[size][size];
+    private HealthyCell[][] updSkin = new HealthyCell[size][size];
 
-    public void start() {
+    // Начальная генерация игрового поля, заполнение массива кожи инфицированной и здоровыми клетками,
+    // И по прошествию единицы времени проведение обновления
+    // Количество итераций = количество тиков, заданных программно в Main
+    public void start(int n) {
         initSkin();
         printSkin();
         int counter = 0;
-        while (!isHealthy()) {
+        while (counter < n) {
             update();
             counter++;
         }
         System.out.println(counter);
     }
 
+
     private void update() {
         for (int i = 0; i < skin.length; i++) {
             for (int j = 0; j < skin[i].length; j++) {
-                skin[i][j].update();
+                if (skin[i][j].getCellSymbol() == updSkin[i][j].getCellSymbol()) {
+                    skin[i][j].update();
+                }
             }
         }
+        copySkin();
         printSkin();
     }
 
+
+    // Необходим для копирования текущего состояния в выводимое,
+    // Дабы избежать некорректного обновления инфицированных клеток
+    private void copySkin() {
+        for (int i = 0; i < updSkin.length; i++) {
+            System.arraycopy(updSkin[i], 0, skin[i], 0, size);
+        }
+    }
+
+    // Необходим для корректной работы проверки на одинаковые клетки
+    // После инициализации кожи
+    private void copyUpdSkin() {
+        for (int i = 0; i < skin.length; i++) {
+            System.arraycopy(skin[i], 0, updSkin[i], 0, size);
+        }
+    }
+
+    // Заполнение массива здоровыми и зараженной клетками
     private void initSkin() {
         for (int i = 0; i < skin.length; i++) {
             for (int j = 0; j < skin[i].length; j++) {
                 if (i == size / 2 && j == size / 2) {
                     skin[i][j] = new InfectedCell(i, j, this);
                 } else {
-                    skin[i][j] = new HealthyCell(i, j);
+                    skin[i][j] = new HealthyCell(i, j, this);
                 }
             }
         }
+        copyUpdSkin();
     }
 
-    public void printSkin() {
+    // Вывод текущего состояния кожи на экран
+    private void printSkin() {
         for (int i = 0; i < skin.length; i++) {
             for (int j = 0; j < skin[i].length; j++) {
-                System.out.print(getCellSymbol(skin[i][j]) + " ");
+                System.out.print(skin[i][j].getCellSymbol() + " ");
             }
             System.out.println();
         }
         System.out.println("=========================================");
     }
 
-    public void setCell(int x, int y, CellState cellState) {
-        if (cellState == CellState.HEALTHY) {
-            skin[x][y] = new HealthyCell(x, y);
-        } else if (cellState == CellState.IMMUNE) {
-            skin[x][y] = new ImmuneCell(x, y, this);
-        } else if (cellState == CellState.INFECTED) {
-            skin[x][y] = new InfectedCell(x, y, this);
-        }
+    // Переопределение типа выбранной клетки
+    public void setCell(HealthyCell cell) {
+        int x = cell.x;
+        int y = cell.y;
+        updSkin[x][y] = cell;
     }
 
-    public Cell getCell(int x, int y) {
+    public HealthyCell getCell(int x, int y) {
         return skin[x][y];
     }
 
     public int getSize() {
         return size;
-    }
-
-    private boolean isHealthy() {
-        boolean isHealthy = true;
-        for (int i = 0; i < skin.length; i++) {
-            for (int j = 0; j < skin[i].length; j++) {
-                if (skin[i][j].state != CellState.HEALTHY) {
-                    isHealthy = false;
-                    break;
-                }
-            }
-        }
-        return isHealthy;
-    }
-
-    protected String getCellSymbol(Cell cell) {
-        switch (cell.state) {
-            case HEALTHY:
-                return "+";
-            case IMMUNE:
-                return "=";
-            case INFECTED:
-                return "-";
-            default:
-                return "E";
-        }
     }
 }
